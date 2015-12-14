@@ -5,11 +5,33 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var swig = require('swig');
+var Cookies = require("cookies");
+var jwt = require('jsonwebtoken');
+var config = require('./config.json');
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
+var login = require('./routes/login');
 
 var app = express();
+
+app.use(function (req, res, next) {
+  var token = new Cookies(req, res).get('token');
+  if(req.url.indexOf("/login") == 0){
+    next();
+  }else{
+    if(token){
+      jwt.verify(token, config.secret, function(err, decoded) {
+        if(err)
+          res.send("Failed");
+        else
+          next();
+      });
+    }else{
+      res.send("Failed");
+    }
+  }
+});
 
 // view engine setup
 app.engine('html', swig.renderFile);
@@ -26,6 +48,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', routes);
 app.use('/users', users);
+app.use('/login', login);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
