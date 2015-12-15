@@ -8,6 +8,7 @@ var swig = require('swig');
 var Cookies = require("cookies");
 var jwt = require('jsonwebtoken');
 var config = require('./config.json');
+var Utils = require("./Utils.js");
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
@@ -17,18 +18,21 @@ var app = express();
 
 app.use(function (req, res, next) {
   var token = new Cookies(req, res).get('token');
-  if(req.url.indexOf("/login") == 0){
+  if(Utils.isDisconnectedLink(req.url) || req.url == '/'){
     next();
   }else{
     if(token){
-      jwt.verify(token, config.secret, function(err, decoded) {
+      jwt.verify(token, config.pwd.secret, function(err, decoded) {
         if(err)
-          res.send("Failed");
+          res.send("Connected required link");
+        else
+        if(Utils.isAdminRequiredLink(req.url) && decoded.admin == false)
+          res.send("Admin required link");
         else
           next();
       });
     }else{
-      res.send("Failed");
+      res.send("Connected required link");
     }
   }
 });

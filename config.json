@@ -1,3 +1,18 @@
 {
-  "secret":"mySecret"
+  "pwd":{
+    "secret":"mySecret"
+  },
+  "disconnectedBeginLinks": [
+    "/login",
+    "/users/getOne",
+    "/users/getAll"
+  ],
+  "disconnectedStrictLinks": [
+    "/users"
+  ],
+  "adminRequiredBeginLinks": [
+    "/users/delete"
+  ],
+  "adminRequiredStrictLinks": [
+  ]
 }

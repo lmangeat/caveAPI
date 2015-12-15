@@ -7,7 +7,7 @@ var config = require('../config.json');
 /* GET home page. */
 router.get('/', function(req, res, next) {
   var token = new Cookies(req, res).get('token');
-  var user = jwt.decode(token, config.secret);
+  var user = jwt.decode(token, config.pwd.secret);
   res.render('index', { title: 'Express', user: user});
 });
 

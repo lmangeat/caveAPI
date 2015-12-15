@@ -11,6 +11,7 @@ var User = new Schema({
     email: { type: String, required: true },
     password: { type: String, required: true},
     caves: { type: [{type: Schema.ObjectId, ref: 'Cave'}], required: false },
+    admin: { type: Boolean, required: true, default: false },
     created_at: { type: Date, required: true, default: Date.now },
     updated_at: { type: Date, required: true, default: Date.now }
 });
