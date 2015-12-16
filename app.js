@@ -15,6 +15,8 @@ var routes = require('./routes/index');
 var users = require('./routes/users');
 var login = require('./routes/login');
 
+var http_port = process.env.HTTP_PORT || 3000;
+
 console.log("Starting application");
 console.log("Loading Mongoose functionality");
 mongoose.set('debug', true);
@@ -106,6 +108,11 @@ app.use(function(err, req, res, next) {
     message: err.message,
     status: err.status || 500
   });
+});
+
+console.log("Creating HTTP server on port: %s", http_port);
+require('http').createServer(app).listen(http_port, function () {
+  console.log("HTTP Server listening on port: %s, in %s mode", http_port, app.get('env'));
 });
 
 
