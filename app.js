@@ -15,7 +15,7 @@ var routes = require('./routes/index');
 var users = require('./routes/users');
 var login = require('./routes/login');
 
-var http_port = process.env.HTTP_PORT || 3000;
+//var http_port = process.env.HTTP_PORT || 3000;
 
 console.log("Starting application");
 console.log("Loading Mongoose functionality");
@@ -55,6 +55,10 @@ app.use(function (req, res, next) {
 app.engine('html', swig.renderFile);
 app.set('view engine', 'html');
 app.set('views', __dirname + '/views');
+
+//port configuration for commande "node app.js"
+app.set('port', 3000);
+app.listen(3000);
 
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
@@ -110,10 +114,11 @@ app.use(function(err, req, res, next) {
   });
 });
 
+/*
 console.log("Creating HTTP server on port: %s", http_port);
 require('http').createServer(app).listen(http_port, function () {
   console.log("HTTP Server listening on port: %s, in %s mode", http_port, app.get('env'));
 });
-
+*/
 
 module.exports = app;
