@@ -34,7 +34,20 @@ router.get('/getOne/email/:email', function(req, res, next) {
 });
 
 router.post('/create', function(req, res, next){
-
+    var user = new User(
+        {
+            username: req.body.username,
+            email: req.body.email,
+            password: req.body.password
+        });
+    user.save(function(err){
+        if(err) {
+            console.log(err);
+            res.json({success: false});
+        }
+        else
+            res.json({success: true});
+    });
 });
 
 router.delete('/delete/username/:username', function(req, res, next){

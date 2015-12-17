@@ -5,7 +5,8 @@
   "disconnectedBeginLinks": [
     "/login",
     "/users/getOne",
-    "/users/getAll"
+    "/users/getAll",
+    "/users/create"
   ],
   "disconnectedStrictLinks": [
     "/users"
