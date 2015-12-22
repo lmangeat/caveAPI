@@ -12,7 +12,7 @@ var Row = new Schema({
     updated_at: { type: Date, required: true, default: Date.now }
 });
 
-Cave.pre('save', function (next) {
+Row.pre('save', function (next) {
     var now = new Date();
 
     this.updated_at = now;
