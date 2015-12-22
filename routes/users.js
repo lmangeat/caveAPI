@@ -197,4 +197,15 @@ router.put('/update/admin/id/:id', function(req, res, next){
     }
 });
 
+router.get('/getAllCaves/idUser/:id', function(req, res, next){
+    User
+        .findOne({_id: req.params.id})
+        .exec(function(err, user){
+            if(!err)
+                res.json(user.caves);
+            else
+                res.json({success:false});
+        });
+});
+
 module.exports = router;
