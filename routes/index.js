@@ -2,7 +2,7 @@ var express = require('express');
 var router = express.Router();
 var Cookies = require("cookies");
 var jwt = require('jsonwebtoken');
-var config = require('../config.json');
+var config = require('../Configs/config.json');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {

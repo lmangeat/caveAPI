@@ -13,7 +13,7 @@
   ],
   "adminRequiredBeginLinks": [
     "/users/delete",
-    "users/update/admin"
+    "/users/update/admin"
   ],
   "adminRequiredStrictLinks": [
   ]

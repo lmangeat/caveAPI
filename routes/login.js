@@ -6,7 +6,7 @@ var router = express.Router();
 var mongoose = require('mongoose');
 var Cookies = require("cookies");
 var jwt = require('jsonwebtoken');
-var config = require('../config.json');
+var config = require('../Configs/config.json');
 var bcrypt = require("bcryptjs");
 
 var UserDB = require('../models/UserDB');

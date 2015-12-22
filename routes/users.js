@@ -4,7 +4,7 @@ var mongoose = require('mongoose');
 var sanitizer = require('sanitizer');
 
 var Utils = require("../Utils.js");
-var errorForm = require("../ErrorForm.js").error;
+var errorForm = require("../Configs/ErrorForm.js").error;
 
 var UserDb = require('../models/UserDB');
 var User = mongoose.model('User');

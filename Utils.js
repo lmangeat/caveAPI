@@ -1,13 +1,13 @@
 /**
  * Created by lmangeat on 15/12/2015.
  */
-var config = require('./config.json');
+var config = require('./Configs/config.json');
 var mongoose = require('mongoose');
 
 var UserDb = require('./models/UserDB');
 var User = mongoose.model('User');
 
-var errorForm = require("./ErrorForm.js").error;
+var errorForm = require("./Configs/ErrorForm.js").error;
 
 
 function isValidPassword(password){

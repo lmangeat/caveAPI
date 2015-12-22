@@ -8,7 +8,7 @@ var swig = require('swig');
 var Cookies = require("cookies");
 var jwt = require('jsonwebtoken');
 var mongoose = require('mongoose');
-var config = require('./config.json');
+var config = require('./Configs/config.json');
 var Utils = require("./Utils.js");
 
 var routes = require('./routes/index');
