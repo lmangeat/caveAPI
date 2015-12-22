@@ -7,6 +7,20 @@ var mongoose = require('mongoose');
 var UserDb = require('./models/UserDB');
 var User = mongoose.model('User');
 
+
+function isValidPassword(password){
+    return (password.length >= 4);
+}
+
+function isValidUsername(username){
+    return (username.length >= 4);
+}
+
+function isValidEmail(email){
+    var regExEmail = /^[-a-z0-9~!$%^&*_=+}{\'?]+(\.[-a-z0-9~!$%^&*_=+}{\'?]+)*@([a-z0-9_][-a-z0-9_]*(\.[-a-z0-9_]+)*\.(aero|arpa|biz|com|coop|edu|gov|info|int|mil|museum|name|net|org|pro|travel|mobi|[a-z][a-z])|([0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}))(:[0-9]{1,5})?$/i;
+    return email.match(regExEmail);
+}
+
 module.exports.isDisconnectedLink = function(link){
     var dbl, dsl;
     for(var i =0; i < config.disconnectedBeginLinks.length; i++){
@@ -38,9 +52,6 @@ module.exports.isAdminRequiredLink = function(link){
 }
 
 module.exports.validCreateUserForm = function(username, email, password, checkpassword, next){
-    var regExEmail = /^[-a-z0-9~!$%^&*_=+}{\'?]+(\.[-a-z0-9~!$%^&*_=+}{\'?]+)*@([a-z0-9_][-a-z0-9_]*(\.[-a-z0-9_]+)*\.(aero|arpa|biz|com|coop|edu|gov|info|int|mil|museum|name|net|org|pro|travel|mobi|[a-z][a-z])|([0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}))(:[0-9]{1,5})?$/i;
-    var emailMatch;
-
     if(username && email && password && checkpassword) {
         User.findOne({$or: [{username: username}, {email: email}]})
             .exec(function (err, user) {
@@ -48,7 +59,7 @@ module.exports.validCreateUserForm = function(username, email, password, checkpa
                     if(isValidUsername(username)) {
                         if (isValidPassword(password)) {
                             if (password == checkpassword) {
-                                if ((emailMatch = email.match(regExEmail))) {
+                                if (isValidEmail(email)) {
                                     next(null);
                                 } else {
                                     next({
@@ -103,10 +114,8 @@ module.exports.validCreateUserForm = function(username, email, password, checkpa
     }
 };
 
-function isValidPassword(password){
-    return (password.length >= 4);
-}
+module.exports.isValidPassword = isValidPassword;
 
-function isValidUsername(username){
-    return (username.length >= 4);
-}
+module.exports.isValidUsername = isValidUsername;
+
+module.exports.isValidEmail = isValidEmail;
