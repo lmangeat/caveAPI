@@ -4,9 +4,11 @@ var mongoose = require('mongoose');
 var sanitizer = require('sanitizer');
 
 var Utils = require("../Utils.js");
+var errorForm = require("../ErrorForm.js").error;
 
 var UserDb = require('../models/UserDB');
 var User = mongoose.model('User');
+
 
 /* GET users listing. */
 router.get('/getAll', function(req, res, next) {
@@ -53,11 +55,7 @@ router.post('/create', function(req, res, next){
             user.save(function (err) {
                 if (err) {
                     console.log(err);
-                    res.json({
-                        success: false,
-                        status: 600,
-                        message: "Form global error"
-                    });
+                    res.json(errorForm[600]);
                 }
                 else
                     res.json({
@@ -96,8 +94,107 @@ router.delete('/delete/id/:id', function(req, res, next){
         });
 });
 
-router.put('/update', function(req, res, next){
-    
+router.put('/update/username/id/:id', function(req, res, next){
+    var username = sanitizer.escape(req.body.username);
+
+    if(Utils.isValidUsername(username)){
+        User.update(
+            {_id: req.params.id},
+            {$set:{
+                username: username
+            }}
+        ).exec(function(err){
+            if(err)
+                res.json(errorForm[600]);
+            else
+                res.json({
+                    success: true,
+                    status: 200,
+                    message: "Form successfully validate"
+                });
+        });
+    }else{
+        res.json(errorForm[604]);
+    }
+});
+
+router.put('/update/email/id/:id', function(req, res, next){
+    var email = sanitizer.escape(req.body.email);
+
+    if(Utils.isValidEmail(email)){
+        User.update(
+            {_id: req.params.id},
+            {$set:{
+                email: email
+            }}
+        ).exec(function(err){
+            if(err)
+                res.json(errorForm[600]);
+            else
+                res.json({
+                    success: true,
+                    status: 200,
+                    message: "Form successfully validate"
+                });
+        });
+    }else{
+        res.json([603]);
+    }
+});
+
+router.put('/update/password/id/:id', function(req, res, next){
+    var password = sanitizer.escape(req.body.password),
+        checkpassword = sanitizer.escape(req.body.checkpassword);
+
+    if(Utils.isValidPassword(password)){
+        if(password == checkpassword) {
+            User.update(
+                {_id: req.params.id},
+                {
+                    $set: {
+                        password: password
+                    }
+                }
+            ).exec(function (err) {
+                if (err)
+                    res.json(errorForm[600]);
+                else
+                    res.json({
+                        success: true,
+                        status: 200,
+                        message: "Form successfully validate"
+                    });
+            });
+        }else{
+            res.json(errorForm[607]);
+        }
+    }else{
+        res.json(errorForm[606]);
+    }
+});
+
+router.put('/update/admin/id/:id', function(req, res, next){
+    var admin = sanitizer.escape(req.body.admin);
+
+    if(admin == "true" || admin == "false"){
+        User.update(
+            {_id: req.params.id},
+            {$set:{
+                admin: (admin == "true")
+            }}
+        ).exec(function(err){
+                if(err)
+                    res.json(errorForm[600]);
+                else
+                    res.json({
+                        success: true,
+                        status: 200,
+                        message: "Form successfully validate"
+                    });
+            });
+    }else{
+        res.json([600]);
+    }
 });
 
 module.exports = router;

@@ -7,6 +7,8 @@ var mongoose = require('mongoose');
 var UserDb = require('./models/UserDB');
 var User = mongoose.model('User');
 
+var errorForm = require("./ErrorForm.js").error;
+
 
 function isValidPassword(password){
     return (password.length >= 4);
@@ -62,55 +64,27 @@ module.exports.validCreateUserForm = function(username, email, password, checkpa
                                 if (isValidEmail(email)) {
                                     next(null);
                                 } else {
-                                    next({
-                                        success: false,
-                                        status: 605,
-                                        message: "The email address is not valid"
-                                    });
+                                    next(errorForm[605]);
                                 }
                             } else {
-                                next({
-                                    success: false,
-                                    status: 607,
-                                    message: "The two passwords doesn't match"
-                                });
+                                next(errorForm[607]);
                             }
                         } else {
-                            next({
-                                success: false,
-                                status: 606,
-                                message: "The password is not valid"
-                            });
+                            next(errorForm[606]);
                         }
                     }else{
-                        next({
-                            success: false,
-                            status: 604,
-                            message: "The username is not valid"
-                        });
+                        next(errorForm[604]);
                     }
                 } else {
                     if (user.username == username) {
-                        next({
-                            success: false,
-                            status: 602,
-                            message: "The username is already used"
-                        });
+                        next(errorForm[602]);
                     } else if (user.email == email) {
-                        next({
-                            success: false,
-                            status: 603,
-                            message: "The email address is already used"
-                        });
+                        next(errorForm[603]);
                     }
                 }
             });
     }else{
-        next({
-            success: false,
-            status: 601,
-            message: "All the required fields have not been shown"
-        });
+        next(errorForm[601]);
     }
 };
 

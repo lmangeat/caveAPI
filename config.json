@@ -12,7 +12,8 @@
     "/users"
   ],
   "adminRequiredBeginLinks": [
-    "/users/delete"
+    "/users/delete",
+    "users/update/admin"
   ],
   "adminRequiredStrictLinks": [
   ]
