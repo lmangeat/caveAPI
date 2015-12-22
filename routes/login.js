@@ -109,7 +109,7 @@ router.get('/test', function(req, res, next) {
         name: "Name bottle 2 Row 2 Cave 2",
         position: 2
     });
-    /*
+
     bottle1Row1Cave1.save();
     bottle2Row1Cave1.save();
     bottle1Row2Cave1.save();
@@ -118,7 +118,7 @@ router.get('/test', function(req, res, next) {
     bottle2Row1Cave2.save();
     bottle1Row2Cave2.save();
     bottle2Row2Cave2.save();
-*/
+
     var row1Cave1 = Row({
         bottles:[bottle1Row1Cave1, bottle2Row1Cave1],
         nbMaxBottles: 20
@@ -135,22 +135,20 @@ router.get('/test', function(req, res, next) {
         bottles:[bottle1Row2Cave2, bottle2Row2Cave2],
         nbMaxBottles: 20
     });
-    /*
     row1Cave1.save();
     row2Cave1.save();
     row1Cave2.save();
     row2Cave2.save();
-*/
+
     var cave1 = new Cave({
         rows:[row1Cave1, row2Cave1]
     });
     var cave2 = new Cave({
         rows:[row1Cave2, row2Cave2]
     });
-    /*
     cave1.save();
     cave2.save();
-*/
+
     var user = new User(
         {
             username: "test",

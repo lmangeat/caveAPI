@@ -8,7 +8,8 @@ var errorForm = require("../Configs/ErrorForm.js").error;
 
 var UserDb = require('../models/UserDB');
 var User = mongoose.model('User');
-
+var CaveDB = require('../models/CaveDB');
+var Cave = mongoose.model('Cave');
 
 /* GET users listing. */
 router.get('/getAll', function(req, res, next) {
@@ -198,11 +199,22 @@ router.put('/update/admin/id/:id', function(req, res, next){
 });
 
 router.get('/getAllCaves/idUser/:id', function(req, res, next){
+    var caves = [];
     User
         .findOne({_id: req.params.id})
         .exec(function(err, user){
-            if(!err)
-                res.json(user.caves);
+            if(!err){
+                for(var i = 0; i<user.caves.length; i++){
+                    Cave
+                        .findOne({_id:user.caves[i]})
+                        .exec(function(err, cave){
+                            if(!err)
+                                caves.push(cave);
+                        });
+                }
+                res.json(caves);
+            }
+
             else
                 res.json({success:false});
         });
