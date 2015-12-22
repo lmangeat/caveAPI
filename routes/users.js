@@ -205,12 +205,7 @@ router.get('/getAllCaves/idUser/:id', function(req, res, next){
         .exec(function(err, user){
             if(!err){
                 for(var i = 0; i<user.caves.length; i++){
-                    Cave
-                        .findOne({_id:user.caves[i]})
-                        .exec(function(err, cave){
-                            if(!err)
-                                caves.push(cave);
-                        });
+                    addUserCaves(caves, user.caves[i]);
                 }
                 res.json(caves);
             }
@@ -219,5 +214,14 @@ router.get('/getAllCaves/idUser/:id', function(req, res, next){
                 res.json({success:false});
         });
 });
+
+function addUserCaves(caves, idCave){
+    Cave
+    .findOne({_id:idCave})
+    .exec(function(err, cave){
+        if(!err)
+            caves.push(cave);
+    });
+}
 
 module.exports = router;
