@@ -202,7 +202,7 @@ router.get('/getAllCaves/idUser/:id', function(req, res, next){
         .findOne({_id: req.params.id})
         .exec(function(err, user){
             if(!err)
-                res.json(user.caves);
+                res.json(user.caves.rows);
             else
                 res.json({success:false});
         });
