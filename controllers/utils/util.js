@@ -1,13 +1,14 @@
-/**
- * Created by lmangeat on 15/12/2015.
- */
-var config = require('./Configs/config.json');
-var mongoose = require('mongoose');
+"use strict";
 
-var UserDb = require('./models/UserDB');
+var url = require('url'),
+    express = require('express'),
+    logger = require('log4js').getLogger('controller.util'),
+    config = require('../../config/config.json'),
+    errorForm = require("../../config/ErrorForm.js").error,
+    mongoose = require('mongoose');
+
+var UserDb = require('../../models/UserDB');
 var User = mongoose.model('User');
-
-var errorForm = require("./Configs/ErrorForm.js").error;
 
 
 function isValidPassword(password){
@@ -22,6 +23,10 @@ function isValidEmail(email){
     var regExEmail = /^[-a-z0-9~!$%^&*_=+}{\'?]+(\.[-a-z0-9~!$%^&*_=+}{\'?]+)*@([a-z0-9_][-a-z0-9_]*(\.[-a-z0-9_]+)*\.(aero|arpa|biz|com|coop|edu|gov|info|int|mil|museum|name|net|org|pro|travel|mobi|[a-z][a-z])|([0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}))(:[0-9]{1,5})?$/i;
     return email.match(regExEmail);
 }
+
+module.exports.getPathParams = function getPathParams(req){
+    return url.parse(req.url).pathname.split('/').slice(1);
+};
 
 module.exports.isDisconnectedLink = function(link){
     var dbl, dsl;
@@ -89,7 +94,24 @@ module.exports.validCreateUserForm = function(username, email, password, checkpa
 };
 
 module.exports.isValidPassword = isValidPassword;
-
 module.exports.isValidUsername = isValidUsername;
-
 module.exports.isValidEmail = isValidEmail;
+
+//module.exports.getPassword = function getPassword(req, res, next) {
+//    logger.info('Getting password from db for user with id:' + Util.getPathParams(req)[2]);
+//
+//    return User.findById(
+//        getPathParams(req)[2],
+//        function (err, user) {
+//         if (err)
+//          next(err.message);
+//
+//         logger.debug('password retrieved:' + user.password);
+//         //if (!! user.password ||_.isNull(user.password) || _.isEmpty(user.password)) {
+//         //    logger.error('No password found :o !');
+//         //}
+//
+//         next(user.password);
+//
+//        });
+// };
