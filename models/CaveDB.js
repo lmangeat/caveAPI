@@ -6,7 +6,7 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 var Cave = new Schema({
-    rows: { type: [{type: Schema.ObjectId, ref: 'Row'}], required: true },
+    rows: { type: [{type: Schema.ObjectId, ref: 'Row'}], required: false },
     created_at: { type: Date, required: true, default: Date.now },
     updated_at: { type: Date, required: true, default: Date.now }
 });

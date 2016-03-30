@@ -12,14 +12,13 @@ var config = require('config'),
     CaveDB = require('../models/CaveDB'),
     Cave = mongoose.model('Cave');
 
-//REST: GET api/users
+//REST: GET /users
 module.exports.getUsers = function getUsers(req, res, next) {
     logger.info('Getting all users from db...');
 
     //TODO add size param handling => see how to get the query params (using url package ?)
     // Code necessary to consume the User API and respond
     User.find({})
-        //.populate('address')
         //.limit(size)
         .exec(function (err, users) {
             if (err)
@@ -36,7 +35,7 @@ module.exports.getUsers = function getUsers(req, res, next) {
         });
 };
 
-//REST: GET api/users/getOne/username/{username}
+//REST: GET /users/getOne/username/{username}
 module.exports.getUserByUserName = function getUserByUserName(req, res, next){
     User.find({username: Util.getPathParams(req)[3]})
         .exec(function(err, users){
@@ -54,7 +53,7 @@ module.exports.getUserByUserName = function getUserByUserName(req, res, next){
         });
 };
 
-//REST: GET api/users/getOne/email/{email}
+//REST: GET /users/getOne/email/{email}
 module.exports.getUserByEmail = function getUserByEmail(req, res, next){
     User.find({email: Util.getPathParams(req)[3]})
         .exec(function(err, users){
@@ -72,7 +71,7 @@ module.exports.getUserByEmail = function getUserByEmail(req, res, next){
         });
 };
 
-//REST: POST api/users/create
+//REST: POST /users/create
 module.exports.createUser = function createUser(req, res, next){
     var username = sanitizer.escape(req.body.username),
         email = sanitizer.escape(req.body.email),
@@ -245,7 +244,6 @@ module.exports.updateAdmin = function updateAdmin(req, res, next){
 
 //REST: GET /users/caves/idUser/{id}
 module.exports.getAllCaves = function getAllCaves(req, res, next){
-    var caves = [];
     User.findOne({_id: Util.getPathParams(req)[3]})
         .populate('caves')
         .exec(function(err, user){

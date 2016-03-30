@@ -12,6 +12,10 @@
     {
       "name": "User",
       "description": "account"
+    },
+    {
+      "name": "Cave",
+      "description": ""
     }
   ],
   "securityDefinitions": {
@@ -486,7 +490,185 @@
           }
         }
       }
+    },
+    "/caves": {
+      "get": {
+        "x-swagger-router-controller": "CaveController",
+        "operationId": "getCaves",
+        "tags": [
+          "Cave"
+        ],
+        "summary": "Get all caves",
+        "description": "Gets `Cave` objects.\nOptional query param of **size** determines\nsize of returned array\n",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "token",
+            "description": "token",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "size",
+            "in": "query",
+            "description": "Size of array",
+            "required": false,
+            "type": "number",
+            "format": "double"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "An array of Caves",
+            "schema": {
+              "title": "ArrayOfCaves",
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Cave"
+              }
+            }
+          },
+          "default": {
+            "description": "Unexpected error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    },
+    "/caves/user/{id}": {
+      "get": {
+        "x-swagger-router-controller": "CaveController",
+        "operationId": "getUserCaves",
+        "tags": [
+          "Cave"
+        ],
+        "summary": "Get user's caves",
+        "description": "Gets `Cave` objects.",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "token",
+            "description": "token",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "description": "User's id",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "An array of Caves",
+            "schema": {
+              "title": "ArrayOfCaves",
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Cave"
+              }
+            }
+          },
+          "default": {
+            "description": "Unexpected error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    },
+    "/caves/create/user/{id}": {
+      "post": {
+        "x-swagger-router-controller": "CaveController",
+        "operationId": "createCave",
+        "tags": [
+          "Cave"
+        ],
+        "summary": "Create new cave",
+        "description": "Create a new cave for a user",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "token",
+            "description": "token",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "description": "User's id",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A 'Cave' object.",
+            "schema": {
+              "title": "Retrieved Cave object",
+              "type": "object",
+              "$ref": "#/definitions/Cave"
+            }
+          },
+          "default": {
+            "description": "Unexpected error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    },
+    "/caves/delete/id/{id}": {
+      "delete": {
+        "x-swagger-router-controller": "CaveController",
+        "operationId": "deleteCaveById",
+        "tags": [
+          "Cave"
+        ],
+        "summary": "Delete cave",
+        "description": "Create the cave with id : 'id'",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "token",
+            "description": "token",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "description": "User's id",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A 'Cave' object.",
+            "schema": {
+              "title": "Retrieved the deleted Cave object",
+              "type": "object",
+              "$ref": "#/definitions/Cave"
+            }
+          },
+          "default": {
+            "description": "Unexpected error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
     }
+
   },
   "definitions": {
     "User": {
