@@ -139,9 +139,9 @@ swaggerTools.initializeMiddleware(swaggerDoc, function (middleware) {
 
     app.use(bodyParser.json({limit: '5mb'}));
 
-    logger.info('Using token handler middleware');
-    token.initialize();
-    app.use(token.tokenHandler);
+    //logger.info('Using token handler middleware');
+    //token.initialize();
+    //app.use(token.tokenHandler);
 
     logger.info('Using Swagger Metadata middleware');
     app.use(middleware.swaggerMetadata());

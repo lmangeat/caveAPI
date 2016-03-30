@@ -10,6 +10,10 @@
   ],
   "tags": [
     {
+      "name": "Session",
+      "description": ""
+    },
+    {
       "name": "User",
       "description": "account"
     },
@@ -18,15 +22,49 @@
       "description": ""
     }
   ],
-  "securityDefinitions": {
-    "token": {
-      "type": "apiKey",
-      "name": "token",
-      "in": "header"
-    }
-  },
   "basePath": "/",
   "paths": {
+    "/login": {
+      "post": {
+        "x-swagger-router-controller": "SessionController",
+        "operationId": "login",
+        "tags": [
+          "Session"
+        ],
+        "summary": "Get session token",
+        "description": "Gets user session token",
+        "parameters": [
+          {
+            "name": "username",
+            "in": "formData",
+            "description": "Username string",
+            "required": true,
+            "type": "string"
+          },{
+            "name": "password",
+            "in": "formData",
+            "description": "Password string",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A token object.",
+            "schema": {
+              "title": "Retrieved token object",
+              "type": "object"
+            }
+          },
+          "default": {
+            "description": "Unexpected error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    },
     "/users": {
       "get": {
         "x-swagger-router-controller": "UserController",
@@ -41,7 +79,7 @@
             "in": "header",
             "name": "token",
             "description": "token",
-            "required": false,
+            "required": true,
             "type": "string"
           },
           {

@@ -1,13 +1,15 @@
 /**
  * Created by Léon on 23/03/2016.
  */
-var config = require('config'),
-    logger = require('log4js').getLogger('controller.user'),
+var logger = require('log4js').getLogger('controller.user'),
     mongoose = require('mongoose'),
     sanitizer = require('sanitizer'),
     _ = require('lodash'),
+    bcrypt = require('bcryptjs'),
+    jwt = require('jsonwebtoken'),
     Util = require('./utils/util.js'),
     errorForm = require("../config/ErrorForm.js").error,
+    config = require('../config/config.json'),
     CaveDB = require('../models/CaveDB'),
     Cave = mongoose.model('Cave'),
     UserDB = require('../models/UserDB'),
@@ -100,6 +102,11 @@ module.exports.deleteCaveById = function deleteCaveById(req, res, next){
                 res.status(404).json(JSON.stringify({error: "Couldn't delete cave"}, null, 2));
             }
         });
+
+    var token = req.header('token');
+    jwt.verify(token, config.pwd.secret, function(err, decoded){
+        console.log(decoded);
+    });
 
     //TODO: Delete cave from user object (user's id in token)
 };
