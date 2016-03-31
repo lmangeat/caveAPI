@@ -16,42 +16,24 @@ var logger = require('log4js').getLogger('controller.user'),
 
 //REST: GET /users
 module.exports.getUsers = function getUsers(req, res, next) {
+    //TODO add size param handling => see how to get the query params (using url package ?)
+    // Code necessary to consume the User API and respond
+    logger.info('Getting all users from db...');
+    User.find({})
+        //.limit(size)
+        .exec(function (err, users) {
+            if (err)
+                return next(err.message);
 
-    var token = req.header('token');
-    jwt.verify(token, config.pwd.secret, function(err, decoded){
-        if(!err){
-            User.findOne({_id: decoded._doc._id})
-                .exec(function(err, user){
-                    console.log(user);
-                    if(err || !user.admin || user.admin != 'true'){
-                        res.set('Content-Type', 'application/json');
-                        res.status(403).json(JSON.stringify({error: "Forbidden: Access denied"}, null, 2));
-                    }else{
-                        //TODO add size param handling => see how to get the query params (using url package ?)
-                        // Code necessary to consume the User API and respond
-                        logger.info('Getting all users from db...');
-                        User.find({})
-                            //.limit(size)
-                            .exec(function (err, users) {
-                                if (err)
-                                    return next(err.message);
-
-                                if (_.isNull(users) || _.isEmpty(users)) {
-                                    res.set('Content-Type', 'application/json');
-                                    res.status(404).json(JSON.stringify({error: "Couldn't gets users"}, null, 2));
-                                }
-                                else {
-                                    res.set('Content-Type', 'application/json');
-                                    res.end(JSON.stringify(users || {}, null, 2));
-                                }
-                            });
-                    }
-                });
-        }else{
-            res.set('Content-Type', 'application/json');
-            res.status(403).json(JSON.stringify({error: "Forbidden: Bad token"}, null, 2));
-        }
-    });
+            if (_.isNull(users) || _.isEmpty(users)) {
+                res.set('Content-Type', 'application/json');
+                res.status(404).json(JSON.stringify({error: "Couldn't gets users"}, null, 2));
+            }
+            else {
+                res.set('Content-Type', 'application/json');
+                res.end(JSON.stringify(users || {}, null, 2));
+            }
+        });
 };
 
 //REST: GET /users/getOne/username/{username}

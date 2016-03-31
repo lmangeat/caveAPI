@@ -23,6 +23,7 @@ var responseTime = require('response-time');
 var path = require('path');
 var bodyParser = require('body-parser');
 var token = require('./security/token');
+var security = require('./security/security.js');
 var bodyParser = require('body-parser')
 
 //******************************************************************************//
@@ -142,6 +143,8 @@ swaggerTools.initializeMiddleware(swaggerDoc, function (middleware) {
     //logger.info('Using token handler middleware');
     //token.initialize();
     //app.use(token.tokenHandler);
+
+    app.use(security.checkAccessToken);
 
     logger.info('Using Swagger Metadata middleware');
     app.use(middleware.swaggerMetadata());

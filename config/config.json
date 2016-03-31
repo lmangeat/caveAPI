@@ -6,7 +6,9 @@
     "/login",
     "/users/getOne",
     "/users/getAll",
-    "/users/create"
+    "/users/create",
+    "/docs",
+    "/api-docs"
   ],
   "disconnectedStrictLinks": [
     "/users"
