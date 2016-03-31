@@ -1,8 +1,4 @@
-/**
- * Created by Antoine on 17/12/2015.
- */
-
-    // Set the DEBUG environment variable to enable debug output of Swagger Middleware AND Swagger Parser
+// Set the DEBUG environment variable to enable debug output of Swagger Middleware AND Swagger Parser
 process.env.DEBUG = 'swagger:*';
 
 // export NODE_APP_INSTANCE=def
@@ -22,7 +18,6 @@ var swaggerTools = require('swagger-tools');
 var responseTime = require('response-time');
 var path = require('path');
 var bodyParser = require('body-parser');
-var token = require('./security/token');
 var security = require('./security/security.js');
 var bodyParser = require('body-parser')
 
